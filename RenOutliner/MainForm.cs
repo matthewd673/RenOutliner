@@ -23,10 +23,14 @@ namespace RenOutliner
         BufferedPanel bufferedPanel;
         Point lastPoint = new Point(-1, -1);
         Point mousePoint = new Point(0, 0);
+        Color lineColor = Color.Red;
+        Pen linePen;
         List<HistoryPoint> bitmapHistory = new List<HistoryPoint>();
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            linePen = new Pen(lineColor);
+
             bufferedPanel = new BufferedPanel();
 
             bufferedPanel.Size = new Size(0, 0);
@@ -57,7 +61,7 @@ namespace RenOutliner
             if (safeMousePos(instantMousePoint))
             {
                 bitmapHistory.Insert(0, new HistoryPoint(new Bitmap(workingBitmap), oldLastPoint));
-                g.DrawLine(Pens.Red, lastPoint, mousePoint);
+                g.DrawLine(linePen, lastPoint, mousePoint);
                 g.Flush();
                 DrawToBuffer(workingBitmap);
             }
@@ -191,6 +195,7 @@ namespace RenOutliner
             pasteButton.Visible = !pasteButton.Visible;
             copyButton.Visible = !copyButton.Visible;
             breakButton.Visible = !breakButton.Visible;
+            colorButton.Visible = !colorButton.Visible;
             undoButton.Visible = !undoButton.Visible;
             posLabel.Visible = !posLabel.Visible;
             spaceLabel.Visible = false;
@@ -223,6 +228,12 @@ namespace RenOutliner
                 return true;
             }
 
+            if (keyData == (Keys.Control | Keys.P))
+            {
+                ChooseColor();
+                return true;
+            }
+
             if (keyData == Keys.Space)
             {
                 ToggleToolbar();
@@ -241,6 +252,30 @@ namespace RenOutliner
             {
                 this.bitmap = bitmap;
                 this.lastPoint = lastPoint;
+            }
+
+        }
+
+        private void SpaceLabel_Click(object sender, EventArgs e)
+        {
+            spaceLabel.Visible = false;
+        }
+
+        private void ColorButton_Click(object sender, EventArgs e)
+        {
+            ChooseColor();
+        }
+
+        void ChooseColor()
+        {
+            ColorDialog colorDialog = new ColorDialog();
+            colorDialog.Color = lineColor;
+            
+            if(colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                lineColor = colorDialog.Color;
+                linePen = new Pen(lineColor);
+                colorButton.Text = "Color (" + colorDialog.Color.Name + ")";
             }
 
         }

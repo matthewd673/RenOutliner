@@ -34,6 +34,7 @@
             this.pasteButton = new System.Windows.Forms.Button();
             this.undoButton = new System.Windows.Forms.Button();
             this.spaceLabel = new System.Windows.Forms.Label();
+            this.colorButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // breakButton
@@ -49,9 +50,10 @@
             // posLabel
             // 
             this.posLabel.AutoSize = true;
-            this.posLabel.Location = new System.Drawing.Point(304, 17);
+            this.posLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.posLabel.Location = new System.Drawing.Point(404, 17);
             this.posLabel.Name = "posLabel";
-            this.posLabel.Size = new System.Drawing.Size(63, 13);
+            this.posLabel.Size = new System.Drawing.Size(65, 15);
             this.posLabel.TabIndex = 2;
             this.posLabel.Text = "LP: () MP: ()";
             // 
@@ -77,7 +79,7 @@
             // 
             // undoButton
             // 
-            this.undoButton.Location = new System.Drawing.Point(255, 12);
+            this.undoButton.Location = new System.Drawing.Point(355, 12);
             this.undoButton.Name = "undoButton";
             this.undoButton.Size = new System.Drawing.Size(43, 23);
             this.undoButton.TabIndex = 4;
@@ -87,19 +89,33 @@
             // 
             // spaceLabel
             // 
+            this.spaceLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.spaceLabel.AutoSize = true;
-            this.spaceLabel.Location = new System.Drawing.Point(1021, 17);
+            this.spaceLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.spaceLabel.Location = new System.Drawing.Point(659, 9);
             this.spaceLabel.Name = "spaceLabel";
-            this.spaceLabel.Size = new System.Drawing.Size(111, 65);
+            this.spaceLabel.Size = new System.Drawing.Size(110, 119);
             this.spaceLabel.TabIndex = 5;
-            this.spaceLabel.Text = "(space) to toggle tools\r\nctrl+v = paste\r\nctrl+c = copy\r\nctrl+b = break line\r\nctrl" +
-    "+z = undo";
+            this.spaceLabel.Text = "(help)\r\nspace = toggle tools\r\nctrl+v = paste\r\nctrl+c = copy\r\nctrl+b = break line\r" +
+    "\nctrl+p = pick color\r\nctrl+z = undo\r\n\r\nclick or toggle to hide\r\n";
+            this.spaceLabel.Click += new System.EventHandler(this.SpaceLabel_Click);
+            // 
+            // colorButton
+            // 
+            this.colorButton.Location = new System.Drawing.Point(255, 12);
+            this.colorButton.Name = "colorButton";
+            this.colorButton.Size = new System.Drawing.Size(94, 23);
+            this.colorButton.TabIndex = 6;
+            this.colorButton.Text = "Color (Red)";
+            this.colorButton.UseVisualStyleBackColor = true;
+            this.colorButton.Click += new System.EventHandler(this.ColorButton_Click);
             // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1144, 759);
+            this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.colorButton);
             this.Controls.Add(this.spaceLabel);
             this.Controls.Add(this.undoButton);
             this.Controls.Add(this.posLabel);
@@ -108,6 +124,7 @@
             this.Controls.Add(this.copyButton);
             this.Name = "MainForm";
             this.Text = "RenOutliner";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -121,6 +138,7 @@
         private System.Windows.Forms.Button breakButton;
         private System.Windows.Forms.Button undoButton;
         private System.Windows.Forms.Label spaceLabel;
+        private System.Windows.Forms.Button colorButton;
     }
 }
 
