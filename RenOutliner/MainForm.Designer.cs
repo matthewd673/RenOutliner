@@ -38,6 +38,7 @@
             // 
             // renderPanel
             // 
+            this.renderPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.renderPanel.Controls.Add(this.breakButton);
             this.renderPanel.Controls.Add(this.posLabel);
             this.renderPanel.Controls.Add(this.copyButton);
@@ -50,6 +51,7 @@
             this.renderPanel.Click += new System.EventHandler(this.RenderPanel_Click);
             this.renderPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.RenderPanel_Paint);
             this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RenderPanel_MouseMove);
+            this.renderPanel.Resize += new System.EventHandler(this.RenderPanel_Resize);
             // 
             // pasteButton
             // 

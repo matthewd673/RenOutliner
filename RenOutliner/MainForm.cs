@@ -93,5 +93,10 @@ namespace RenOutliner
             lastPoint = new Point(-1, -1);
             posLabel.Text = "LP: () MP: ()";
         }
+
+        private void RenderPanel_Resize(object sender, EventArgs e)
+        {
+            pG = renderPanel.CreateGraphics();
+        }
     }
 }
