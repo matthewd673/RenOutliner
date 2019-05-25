@@ -33,6 +33,7 @@
             this.copyButton = new System.Windows.Forms.Button();
             this.pasteButton = new System.Windows.Forms.Button();
             this.undoButton = new System.Windows.Forms.Button();
+            this.spaceLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // breakButton
@@ -84,11 +85,22 @@
             this.undoButton.UseVisualStyleBackColor = true;
             this.undoButton.Click += new System.EventHandler(this.UndoButton_Click);
             // 
+            // spaceLabel
+            // 
+            this.spaceLabel.AutoSize = true;
+            this.spaceLabel.Location = new System.Drawing.Point(1021, 17);
+            this.spaceLabel.Name = "spaceLabel";
+            this.spaceLabel.Size = new System.Drawing.Size(111, 65);
+            this.spaceLabel.TabIndex = 5;
+            this.spaceLabel.Text = "(space) to toggle tools\r\nctrl+v = paste\r\nctrl+c = copy\r\nctrl+b = break line\r\nctrl" +
+    "+z = undo";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1144, 759);
+            this.Controls.Add(this.spaceLabel);
             this.Controls.Add(this.undoButton);
             this.Controls.Add(this.posLabel);
             this.Controls.Add(this.breakButton);
@@ -108,6 +120,7 @@
         private System.Windows.Forms.Label posLabel;
         private System.Windows.Forms.Button breakButton;
         private System.Windows.Forms.Button undoButton;
+        private System.Windows.Forms.Label spaceLabel;
     }
 }
 

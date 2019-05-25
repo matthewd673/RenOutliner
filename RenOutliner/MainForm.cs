@@ -100,6 +100,11 @@ namespace RenOutliner
 
         private void PasteButton_Click(object sender, EventArgs e)
         {
+            Paste();
+        }
+
+        void Paste()
+        {
             try
             {
                 workingBitmap = new Bitmap(Clipboard.GetImage());
@@ -116,6 +121,11 @@ namespace RenOutliner
         }
 
         private void CopyButton_Click(object sender, EventArgs e)
+        {
+            Copy();
+        }
+
+        void Copy()
         {
             Clipboard.SetImage(workingBitmap);
         }
@@ -176,12 +186,46 @@ namespace RenOutliner
             }
         }
 
+        void ToggleToolbar()
+        {
+            pasteButton.Visible = !pasteButton.Visible;
+            copyButton.Visible = !copyButton.Visible;
+            breakButton.Visible = !breakButton.Visible;
+            undoButton.Visible = !undoButton.Visible;
+            posLabel.Visible = !posLabel.Visible;
+            spaceLabel.Visible = false;
+        }
+
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
+
+            if (keyData == (Keys.Control | Keys.V))
+            {
+                Paste();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.C))
+            {
+                Copy();
+                return true;
+            }
 
             if (keyData == (Keys.Control | Keys.Z))
             {
                 Undo();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.B))
+            {
+                BreakLine();
+                return true;
+            }
+
+            if (keyData == Keys.Space)
+            {
+                ToggleToolbar();
                 return true;
             }
 
