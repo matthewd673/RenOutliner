@@ -95,11 +95,11 @@
             this.spaceLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.spaceLabel.Location = new System.Drawing.Point(659, 9);
             this.spaceLabel.Name = "spaceLabel";
-            this.spaceLabel.Size = new System.Drawing.Size(110, 132);
+            this.spaceLabel.Size = new System.Drawing.Size(110, 145);
             this.spaceLabel.TabIndex = 5;
             this.spaceLabel.Text = "(help)\r\nspace = toggle tools\r\nctrl+v = paste\r\nctrl+c = copy\r\nctrl+b = break line\r" +
-    "\nctrl+p = pick color\r\nctrl+j = join polygon\r\nctrl+z = undo\r\n\r\nclick or toggle to" +
-    " hide\r\n";
+    "\nctrl+p = pick color\r\nctrl+j = join polygon\r\nctrl+z = undo\r\narrow keys = pan\r\n\r\n" +
+    "click or toggle to hide\r\n";
             this.spaceLabel.Click += new System.EventHandler(this.SpaceLabel_Click);
             // 
             // colorButton

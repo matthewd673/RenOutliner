@@ -24,6 +24,8 @@ namespace RenOutliner
         Point lastPoint = new Point(-1, -1);
         Point mousePoint = new Point(0, 0);
         Point startPoint = new Point(0, 0);
+        int xOffset = 0;
+        int yOffset = 0;
         Color lineColor = Color.Red;
         Pen linePen;
         List<HistoryPoint> bitmapHistory = new List<HistoryPoint>();
@@ -248,6 +250,34 @@ namespace RenOutliner
             if (keyData == Keys.Space)
             {
                 ToggleToolbar();
+                return true;
+            }
+
+            if (keyData == Keys.Left)
+            {
+                xOffset -= 10;
+                bufferedPanel.Location = new Point(xOffset, yOffset);
+                return true;
+            }
+
+            if (keyData == Keys.Right)
+            {
+                xOffset += 10;
+                bufferedPanel.Location = new Point(xOffset, yOffset);
+                return true;
+            }
+
+            if (keyData == Keys.Up)
+            {
+                yOffset -= 10;
+                bufferedPanel.Location = new Point(xOffset, yOffset);
+                return true;
+            }
+
+            if (keyData == Keys.Down)
+            {
+                yOffset += 10;
+                bufferedPanel.Location = new Point(xOffset, yOffset);
                 return true;
             }
 
