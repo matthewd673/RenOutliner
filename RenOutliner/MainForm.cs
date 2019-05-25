@@ -23,6 +23,7 @@ namespace RenOutliner
         BufferedPanel bufferedPanel;
         Point lastPoint = new Point(-1, -1);
         Point mousePoint = new Point(0, 0);
+        Point startPoint = new Point(0, 0);
         Color lineColor = Color.Red;
         Pen linePen;
         List<HistoryPoint> bitmapHistory = new List<HistoryPoint>();
@@ -56,7 +57,10 @@ namespace RenOutliner
             Point oldLastPoint = lastPoint;
 
             if (lastPoint == new Point(-1, -1) && safeMousePos(instantMousePoint))
+            {
                 lastPoint = instantMousePoint;
+                startPoint = instantMousePoint;
+            }
 
             if (safeMousePos(instantMousePoint))
             {
@@ -196,6 +200,7 @@ namespace RenOutliner
             copyButton.Visible = !copyButton.Visible;
             breakButton.Visible = !breakButton.Visible;
             colorButton.Visible = !colorButton.Visible;
+            joinButton.Visible = !joinButton.Visible;
             undoButton.Visible = !undoButton.Visible;
             posLabel.Visible = !posLabel.Visible;
             spaceLabel.Visible = false;
@@ -231,6 +236,12 @@ namespace RenOutliner
             if (keyData == (Keys.Control | Keys.P))
             {
                 ChooseColor();
+                return true;
+            }
+
+            if (keyData == (Keys.Control | Keys.J))
+            {
+                JoinPolygon();
                 return true;
             }
 
@@ -278,6 +289,21 @@ namespace RenOutliner
                 colorButton.Text = "Color (" + colorDialog.Color.Name + ")";
             }
 
+        }
+
+        private void JoinButton_Click(object sender, EventArgs e)
+        {
+            JoinPolygon();
+        }
+
+        void JoinPolygon()
+        {
+            bitmapHistory.Insert(0, new HistoryPoint(new Bitmap(workingBitmap), lastPoint));
+            g.DrawLine(linePen, lastPoint, startPoint);
+            g.Flush();
+            DrawToBuffer(workingBitmap);
+            lastPoint = startPoint;
+            BitmapReset();
         }
 
     }

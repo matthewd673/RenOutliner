@@ -35,6 +35,7 @@
             this.undoButton = new System.Windows.Forms.Button();
             this.spaceLabel = new System.Windows.Forms.Label();
             this.colorButton = new System.Windows.Forms.Button();
+            this.joinButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // breakButton
@@ -51,7 +52,7 @@
             // 
             this.posLabel.AutoSize = true;
             this.posLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.posLabel.Location = new System.Drawing.Point(404, 17);
+            this.posLabel.Location = new System.Drawing.Point(485, 17);
             this.posLabel.Name = "posLabel";
             this.posLabel.Size = new System.Drawing.Size(65, 15);
             this.posLabel.TabIndex = 2;
@@ -79,7 +80,7 @@
             // 
             // undoButton
             // 
-            this.undoButton.Location = new System.Drawing.Point(355, 12);
+            this.undoButton.Location = new System.Drawing.Point(436, 12);
             this.undoButton.Name = "undoButton";
             this.undoButton.Size = new System.Drawing.Size(43, 23);
             this.undoButton.TabIndex = 4;
@@ -94,10 +95,11 @@
             this.spaceLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.spaceLabel.Location = new System.Drawing.Point(659, 9);
             this.spaceLabel.Name = "spaceLabel";
-            this.spaceLabel.Size = new System.Drawing.Size(110, 119);
+            this.spaceLabel.Size = new System.Drawing.Size(110, 132);
             this.spaceLabel.TabIndex = 5;
             this.spaceLabel.Text = "(help)\r\nspace = toggle tools\r\nctrl+v = paste\r\nctrl+c = copy\r\nctrl+b = break line\r" +
-    "\nctrl+p = pick color\r\nctrl+z = undo\r\n\r\nclick or toggle to hide\r\n";
+    "\nctrl+p = pick color\r\nctrl+j = join polygon\r\nctrl+z = undo\r\n\r\nclick or toggle to" +
+    " hide\r\n";
             this.spaceLabel.Click += new System.EventHandler(this.SpaceLabel_Click);
             // 
             // colorButton
@@ -110,11 +112,22 @@
             this.colorButton.UseVisualStyleBackColor = true;
             this.colorButton.Click += new System.EventHandler(this.ColorButton_Click);
             // 
+            // joinButton
+            // 
+            this.joinButton.Location = new System.Drawing.Point(355, 12);
+            this.joinButton.Name = "joinButton";
+            this.joinButton.Size = new System.Drawing.Size(75, 23);
+            this.joinButton.TabIndex = 7;
+            this.joinButton.Text = "Join Polygon";
+            this.joinButton.UseVisualStyleBackColor = true;
+            this.joinButton.Click += new System.EventHandler(this.JoinButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 561);
+            this.Controls.Add(this.joinButton);
             this.Controls.Add(this.colorButton);
             this.Controls.Add(this.spaceLabel);
             this.Controls.Add(this.undoButton);
@@ -139,6 +152,7 @@
         private System.Windows.Forms.Button undoButton;
         private System.Windows.Forms.Label spaceLabel;
         private System.Windows.Forms.Button colorButton;
+        private System.Windows.Forms.Button joinButton;
     }
 }
 
