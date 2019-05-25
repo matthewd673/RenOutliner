@@ -19,16 +19,84 @@ namespace RenOutliner
 
         Bitmap workingBitmap;
         Graphics g;
-        Graphics pG;
+        BufferedGraphics pG;
+        BufferedPanel bufferedPanel;
         Point lastPoint = new Point(-1, -1);
         Point mousePoint = new Point(0, 0);
+        List<HistoryPoint> bitmapHistory = new List<HistoryPoint>();
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            bufferedPanel = new BufferedPanel();
+
+            bufferedPanel.Size = new Size(0, 0);
+            bufferedPanel.Location = new Point(0, 0);
+            bufferedPanel.BorderStyle = BorderStyle.FixedSingle;
+
+            bufferedPanel.Paint += BufferedPanel_Paint;
+            bufferedPanel.Click += BufferedPanel_Click;
+            bufferedPanel.MouseMove += BufferedPanel_MouseMove;
+            bufferedPanel.Resize += BufferedPanel_Resize;
+
+            Controls.Add(bufferedPanel);
+
             workingBitmap = new Bitmap(1, 1);
-            g = Graphics.FromImage(workingBitmap);
-            pG = renderPanel.CreateGraphics();
+            ResetBitmapGraphics();
+            
+            AllocateBufferedGraphics();
         }
+        
+        private void BufferedPanel_Click(object sender, EventArgs e)
+        {
+            Point instantMousePoint = mousePoint;
+            Point oldLastPoint = lastPoint;
+
+            if (lastPoint == new Point(-1, -1) && safeMousePos(instantMousePoint))
+                lastPoint = instantMousePoint;
+
+            if (safeMousePos(instantMousePoint))
+            {
+                bitmapHistory.Insert(0, new HistoryPoint(new Bitmap(workingBitmap), oldLastPoint));
+                g.DrawLine(Pens.Red, lastPoint, mousePoint);
+                g.Flush();
+                DrawToBuffer(workingBitmap);
+            }
+
+            UpdatePosLabel(instantMousePoint);
+
+            if (safeMousePos(instantMousePoint))
+                lastPoint = instantMousePoint;
+
+            bufferedPanel.Invalidate();
+        }
+
+        void UpdatePosLabel(Point mousePoint)
+        {
+            posLabel.Text = "(" + lastPoint.X + ", " + lastPoint.Y + ") ➡ (" + mousePoint.X + ", " + mousePoint.Y + ")";
+            if (safeMousePos(mousePoint))
+                posLabel.Text += " ✔";
+        }
+
+        void ResetPosLabel()
+        {
+            posLabel.Text = "LP: () MP: ()";
+        }
+
+        private void BufferedPanel_Paint(object sender, PaintEventArgs e)
+        {
+            pG.Render(e.Graphics);
+        }
+
+        private void BufferedPanel_MouseMove(object sender, MouseEventArgs e)
+        {
+            mousePoint = new Point(e.X, e.Y);
+        }
+
+        private void BufferedPanel_Resize(object sender, EventArgs e)
+        {
+            AllocateBufferedGraphics();
+        }
+
 
         private void PasteButton_Click(object sender, EventArgs e)
         {
@@ -36,7 +104,10 @@ namespace RenOutliner
             {
                 workingBitmap = new Bitmap(Clipboard.GetImage());
                 g = Graphics.FromImage(workingBitmap);
-                renderPanel.Size = workingBitmap.Size;
+                bufferedPanel.Size = workingBitmap.Size;
+                bitmapHistory.Clear();
+                BitmapReset();
+                BreakLine();
             }
             catch
             {
@@ -49,40 +120,6 @@ namespace RenOutliner
             Clipboard.SetImage(workingBitmap);
         }
 
-        private void RenderPanel_Paint(object sender, PaintEventArgs e)
-        {
-            pG.DrawImage(workingBitmap, 0, 0);
-        }
-
-        private void RenderPanel_Click(object sender, EventArgs e)
-        {
-
-            Point instantMousePoint = mousePoint;
-
-            if(lastPoint == new Point(-1, -1) && safeMousePos(instantMousePoint))
-                lastPoint = instantMousePoint;
-
-            if (safeMousePos(instantMousePoint))
-            {
-                g.DrawLine(Pens.Red, lastPoint, mousePoint);
-                g.Flush();
-            }
-
-            posLabel.Text = "(" + lastPoint.X + ", " + lastPoint.Y + ") ➡ (" + instantMousePoint.X + ", " + instantMousePoint.Y + ")";
-            if (safeMousePos(instantMousePoint))
-                posLabel.Text += " ✔";
-
-            if(safeMousePos(instantMousePoint))
-            lastPoint = instantMousePoint;
-
-            renderPanel.Invalidate();
-        }
-
-        private void RenderPanel_MouseMove(object sender, MouseEventArgs e)
-        {
-            mousePoint = new Point(e.X, e.Y);
-        }
-
         bool safeMousePos(Point instantMousePoint)
         {
             return (instantMousePoint.X >= 0 && instantMousePoint.X < workingBitmap.Width && instantMousePoint.Y >= 0 && instantMousePoint.Y < workingBitmap.Height);
@@ -90,13 +127,79 @@ namespace RenOutliner
 
         private void BreakButton_Click(object sender, EventArgs e)
         {
-            lastPoint = new Point(-1, -1);
-            posLabel.Text = "LP: () MP: ()";
+            BreakLine();
         }
 
-        private void RenderPanel_Resize(object sender, EventArgs e)
+        void BreakLine()
         {
-            pG = renderPanel.CreateGraphics();
+            lastPoint = new Point(-1, -1);
+            ResetPosLabel();
         }
+
+        void AllocateBufferedGraphics()
+        {
+            pG = BufferedGraphicsManager.Current.Allocate(bufferedPanel.CreateGraphics(), new Rectangle(new Point(0, 0), bufferedPanel.Size));
+        }
+
+        void ResetBitmapGraphics()
+        {
+            g = Graphics.FromImage(workingBitmap);
+        }
+
+        void DrawToBuffer(Image image)
+        {
+            pG.Graphics.DrawImage(image, 0, 0);
+        }
+
+        void BitmapReset()
+        {
+            bufferedPanel.Invalidate();
+            DrawToBuffer(workingBitmap);
+            bufferedPanel.Invalidate();
+        }
+
+        private void UndoButton_Click(object sender, EventArgs e)
+        {
+            Undo();
+        }
+
+        void Undo()
+        {
+            if (bitmapHistory.Count > 0)
+            {
+                workingBitmap = bitmapHistory[0].bitmap;
+                ResetBitmapGraphics();
+                lastPoint = bitmapHistory[0].lastPoint;
+                UpdatePosLabel(mousePoint);
+                BitmapReset();
+                bitmapHistory.RemoveAt(0);
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+
+            if (keyData == (Keys.Control | Keys.Z))
+            {
+                Undo();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        struct HistoryPoint
+        {
+            public Bitmap bitmap;
+            public Point lastPoint;
+
+            public HistoryPoint(Bitmap bitmap, Point lastPoint)
+            {
+                this.bitmap = bitmap;
+                this.lastPoint = lastPoint;
+            }
+
+        }
+
     }
 }

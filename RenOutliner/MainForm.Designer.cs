@@ -28,59 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.renderPanel = new System.Windows.Forms.Panel();
-            this.pasteButton = new System.Windows.Forms.Button();
-            this.copyButton = new System.Windows.Forms.Button();
-            this.posLabel = new System.Windows.Forms.Label();
             this.breakButton = new System.Windows.Forms.Button();
-            this.renderPanel.SuspendLayout();
+            this.posLabel = new System.Windows.Forms.Label();
+            this.copyButton = new System.Windows.Forms.Button();
+            this.pasteButton = new System.Windows.Forms.Button();
+            this.undoButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
-            // 
-            // renderPanel
-            // 
-            this.renderPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.renderPanel.Controls.Add(this.breakButton);
-            this.renderPanel.Controls.Add(this.posLabel);
-            this.renderPanel.Controls.Add(this.copyButton);
-            this.renderPanel.Controls.Add(this.pasteButton);
-            this.renderPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.renderPanel.Location = new System.Drawing.Point(0, 0);
-            this.renderPanel.Name = "renderPanel";
-            this.renderPanel.Size = new System.Drawing.Size(1144, 759);
-            this.renderPanel.TabIndex = 0;
-            this.renderPanel.Click += new System.EventHandler(this.RenderPanel_Click);
-            this.renderPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.RenderPanel_Paint);
-            this.renderPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.RenderPanel_MouseMove);
-            this.renderPanel.Resize += new System.EventHandler(this.RenderPanel_Resize);
-            // 
-            // pasteButton
-            // 
-            this.pasteButton.Location = new System.Drawing.Point(12, 12);
-            this.pasteButton.Name = "pasteButton";
-            this.pasteButton.Size = new System.Drawing.Size(75, 23);
-            this.pasteButton.TabIndex = 0;
-            this.pasteButton.Text = "Paste Image";
-            this.pasteButton.UseVisualStyleBackColor = true;
-            this.pasteButton.Click += new System.EventHandler(this.PasteButton_Click);
-            // 
-            // copyButton
-            // 
-            this.copyButton.Location = new System.Drawing.Point(93, 12);
-            this.copyButton.Name = "copyButton";
-            this.copyButton.Size = new System.Drawing.Size(75, 23);
-            this.copyButton.TabIndex = 1;
-            this.copyButton.Text = "Copy Image";
-            this.copyButton.UseVisualStyleBackColor = true;
-            this.copyButton.Click += new System.EventHandler(this.CopyButton_Click);
-            // 
-            // posLabel
-            // 
-            this.posLabel.AutoSize = true;
-            this.posLabel.Location = new System.Drawing.Point(255, 17);
-            this.posLabel.Name = "posLabel";
-            this.posLabel.Size = new System.Drawing.Size(63, 13);
-            this.posLabel.TabIndex = 2;
-            this.posLabel.Text = "LP: () MP: ()";
             // 
             // breakButton
             // 
@@ -92,28 +45,69 @@
             this.breakButton.UseVisualStyleBackColor = true;
             this.breakButton.Click += new System.EventHandler(this.BreakButton_Click);
             // 
+            // posLabel
+            // 
+            this.posLabel.AutoSize = true;
+            this.posLabel.Location = new System.Drawing.Point(304, 17);
+            this.posLabel.Name = "posLabel";
+            this.posLabel.Size = new System.Drawing.Size(63, 13);
+            this.posLabel.TabIndex = 2;
+            this.posLabel.Text = "LP: () MP: ()";
+            // 
+            // copyButton
+            // 
+            this.copyButton.Location = new System.Drawing.Point(93, 12);
+            this.copyButton.Name = "copyButton";
+            this.copyButton.Size = new System.Drawing.Size(75, 23);
+            this.copyButton.TabIndex = 1;
+            this.copyButton.Text = "Copy Image";
+            this.copyButton.UseVisualStyleBackColor = true;
+            this.copyButton.Click += new System.EventHandler(this.CopyButton_Click);
+            // 
+            // pasteButton
+            // 
+            this.pasteButton.Location = new System.Drawing.Point(12, 12);
+            this.pasteButton.Name = "pasteButton";
+            this.pasteButton.Size = new System.Drawing.Size(75, 23);
+            this.pasteButton.TabIndex = 0;
+            this.pasteButton.Text = "Paste Image";
+            this.pasteButton.UseVisualStyleBackColor = true;
+            this.pasteButton.Click += new System.EventHandler(this.PasteButton_Click);
+            // 
+            // undoButton
+            // 
+            this.undoButton.Location = new System.Drawing.Point(255, 12);
+            this.undoButton.Name = "undoButton";
+            this.undoButton.Size = new System.Drawing.Size(43, 23);
+            this.undoButton.TabIndex = 4;
+            this.undoButton.Text = "Undo";
+            this.undoButton.UseVisualStyleBackColor = true;
+            this.undoButton.Click += new System.EventHandler(this.UndoButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1144, 759);
-            this.Controls.Add(this.renderPanel);
+            this.Controls.Add(this.undoButton);
+            this.Controls.Add(this.posLabel);
+            this.Controls.Add(this.breakButton);
+            this.Controls.Add(this.pasteButton);
+            this.Controls.Add(this.copyButton);
             this.Name = "MainForm";
             this.Text = "RenOutliner";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.renderPanel.ResumeLayout(false);
-            this.renderPanel.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel renderPanel;
         private System.Windows.Forms.Button copyButton;
         private System.Windows.Forms.Button pasteButton;
         private System.Windows.Forms.Label posLabel;
         private System.Windows.Forms.Button breakButton;
+        private System.Windows.Forms.Button undoButton;
     }
 }
 
